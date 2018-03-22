@@ -23,7 +23,7 @@ gulp.task('css', function () {
     plugins.postcssClean()
   ];
 
-  return gulp.src(['src/assets/css/*.scss', 'node_modules/bootstrap/scss/**/*.scss'])
+  return gulp.src('src/assets/css/*.scss')
     .pipe(plugins.plumber({
       errorHandler: onError
     }))
