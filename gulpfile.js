@@ -29,7 +29,8 @@ gulp.task('css', function () {
     .pipe(plugins.postcss(processors))
     .pipe(plugins.rename({ suffix: '.min' }))
     .pipe(gulp.dest('build/assets/css'))
-    .pipe(bs.stream());
+    .pipe(bs.stream())
+    .pipe(plugins.notify({ 'title': 'CSS changed' }));
 });
 
 
@@ -65,7 +66,8 @@ gulp.task('js', function () {
     .pipe(plugins.uglify())
     .pipe(plugins.rename({ suffix: '.min' }))
     .pipe(gulp.dest('build/assets/js'))
-    .pipe(bs.stream());
+    .pipe(bs.stream())
+    .pipe(plugins.notify({ 'title': 'JavaScript changed' }));
 });
 
 
