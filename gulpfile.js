@@ -2,9 +2,7 @@ var gulp = require('gulp'),
   gulpLoadPlugins = require('gulp-load-plugins'),
   plugins = gulpLoadPlugins({ DEBUG: true, pattern: ['gulp-*', 'gulp.*', 'postcss-*', 'cssnext', 'imagemin*'] });
 var bs = require('browser-sync').create();
-var source = require('vinyl-source-stream');
-var buffer = require('vinyl-buffer');
-var browserify = require('browserify');
+var webpack = require('webpack-stream');
 
 var onError = function (err) {
   plugins.notify.onError({
@@ -56,15 +54,11 @@ gulp.task('imagemin', function () {
 
 // Javascript Tasks
 gulp.task('js', function () {
-  browserify({
-    entries: 'src/assets/js/app.js',
-    debug: true,
-    global: true
-  })
-    .transform('babelify', { presets: ['env'] })
-    .bundle()
-    .pipe(source('script.js'))
-    .pipe(buffer())
+  return gulp.src('src/assets/js/app.js')
+    .pipe(plugins.plumber({
+      errorHandler: onError
+    }))
+    .pipe(webpack(require('./webpack.config.js')))
     .pipe(plugins.uglify())
     .pipe(plugins.rename({ suffix: '.min' }))
     .pipe(gulp.dest('build/assets/js'))
