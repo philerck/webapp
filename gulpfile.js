@@ -59,6 +59,9 @@ gulp.task('js', function () {
       errorHandler: onError
     }))
     .pipe(webpack(require('./webpack.config.js')))
+    .pipe(plugins.babel({
+      presets: ['env']
+    }))
     .pipe(plugins.uglify())
     .pipe(plugins.rename({ suffix: '.min' }))
     .pipe(gulp.dest('build/assets/js'))
