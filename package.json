@@ -10,7 +10,7 @@
   "devDependencies": {
     "babel-core": "^6.26.0",
     "babel-preset-env": "^1.6.1",
-    "bootstrap": "^4.0.0",
+    "bootstrap": "^4.1.0",
     "gulp": "^3.9.1",
     "gulp-babel": "^7.0.1",
     "gulp-changed": "^3.2.0",
@@ -22,7 +22,7 @@
     "gulp-plumber": "^1.2.0",
     "gulp-postcss": "^7.0.1",
     "gulp-rename": "^1.2.2",
-    "gulp-sass": "^3.2.0",
+    "gulp-sass": "^4.0.1",
     "gulp-uglify": "^3.0.0",
     "gulp-util": "^3.0.8",
     "gulp-webp": "^3.0.0",
@@ -33,7 +33,7 @@
     "jquery": "^3.3.1",
     "jshint": "^2.9.5",
     "normalize.css": "^8.0.0",
-    "popper.js": "^1.14.1",
+    "popper.js": "^1.14.3",
     "postcss-clean": "^1.1.0",
     "postcss-cssnext": "^3.1.0",
     "webpack-stream": "^4.0.3"
