@@ -19,7 +19,6 @@ var onError = function(err) {
 
 //Convert SCSS to CSS and minify it
 gulp.task('css', function() {
-  //var processors = [plugins.postcssCssnext(), plugins.postcssClean()];
   var processors = [plugins.postcssCssnext()];
   return gulp
     .src('src/assets/css/*.scss')
