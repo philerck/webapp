@@ -8,13 +8,13 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "babel-core": "^6.26.0",
+    "babel-core": "^6.26.3",
     "babel-preset-env": "^1.6.1",
-    "bootstrap": "^4.1.0",
+    "bootstrap": "^4.1.1",
     "gulp": "^3.9.1",
     "gulp-babel": "^7.0.1",
     "gulp-changed": "^3.2.0",
-    "gulp-clean-css": "^3.9.3",
+    "gulp-clean-css": "^3.9.4",
     "gulp-clone": "^2.0.1",
     "gulp-imagemin": "^4.1.0",
     "gulp-jshint": "^2.1.0",
@@ -38,11 +38,11 @@
     "popper.js": "^1.14.3",
     "postcss-cssnext": "^3.1.0",
     "run-sequence": "^2.2.1",
-    "webpack": "^4.5.0",
+    "webpack": "^4.7.0",
     "webpack-stream": "^4.0.3"
   },
   "description": "",
   "dependencies": {
-    "browser-sync": "^2.23.6"
+    "browser-sync": "^2.24.4"
   }
 }
