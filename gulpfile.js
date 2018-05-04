@@ -7,6 +7,7 @@ var gulp = require('gulp'),
 var bs = require('browser-sync').create();
 var gulp_webpack = require('webpack-stream');
 var webpack = require('webpack');
+var runSequence = require('run-sequence');
 
 var onError = function(err) {
   plugins.notify.onError({
@@ -20,8 +21,7 @@ var onError = function(err) {
 //Convert SCSS to CSS and minify it
 gulp.task('css', function() {
   var processors = [plugins.postcssCssnext()];
-  return gulp
-    .src('src/assets/css/*.scss')
+  return gulp.src('src/assets/css/*.scss')
     .pipe(plugins.plumber({ errorHandler: onError }))
     .pipe(plugins.sourcemaps.init())
     .pipe(plugins.sass())
@@ -31,44 +31,43 @@ gulp.task('css', function() {
     .pipe(plugins.sourcemaps.write('.'))
     .pipe(gulp.dest('build/assets/css'))
     .pipe(bs.stream())
-    .pipe(plugins.notify({ title: 'CSS changed' }));
+    .pipe(plugins.notify({ title: 'CSS changed', sound: false}));
 });
 
 // Minifiy Images and create Webp
-gulp.task('imagemin', function() {
-  var img = gulp.src('src/assets/img/*');
-  img
-    .pipe(plugins.clone())
-    .pipe(
-      plugins.plumber({
-        errorHandler: onError
-      })
-    )
+gulp.task('imagemin', function () {
+  return gulp.src('src/assets/img/*')
+    .pipe(plugins.plumber({ errorHandler: onError }))
     .pipe(plugins.changed('build/assets/img'))
     .pipe(
       plugins.imagemin(
         [
           plugins.imageminMozjpeg({ quality: 85, progressive: true }),
-          plugins.imageminPngquant({ quality: 85, floyd: 1 })
+          plugins.imageminPngquant({ quality: 65 - 85 })
         ],
         { verbose: true }
       )
     )
     .pipe(gulp.dest('build/assets/img'))
     .pipe(bs.stream());
+});
 
-  img
-    .pipe(plugins.clone())
+gulp.task('webp', function () {
+  return gulp
+    .src('src/assets/img/*')
+    .pipe(plugins.plumber({ errorHandler: onError }))
     .pipe(plugins.changed('build/assets/img'))
-    .pipe(plugins.webp({ quality: 65 }))
-    .pipe(gulp.dest('build/assets/img'))
-    .pipe(bs.stream());
+    .pipe(plugins.webp({ quality: 100 }))
+    .pipe(gulp.dest('build/assets/img'));
+});
+
+gulp.task('images', function () {
+  runSequence('webp', 'imagemin');
 });
 
 // Javascript Tasks
 gulp.task('js', function() {
-  return gulp
-    .src('src/assets/js/app.js')
+  return gulp.src('src/assets/js/app.js')
     .pipe(
       plugins.plumber({
         errorHandler: onError
@@ -84,7 +83,7 @@ gulp.task('js', function() {
     .pipe(plugins.rename({ suffix: '.min' }))
     .pipe(gulp.dest('build/assets/js'))
     .pipe(bs.stream())
-    .pipe(plugins.notify({ title: 'JavaScript changed' }));
+    .pipe(plugins.notify({ title: 'JavaScript changed', sound: false}));
 });
 
 //BrowserSync Task
@@ -97,8 +96,8 @@ gulp.task('browser-sync', function() {
       clicks: true
     }
   });
-  gulp.watch('src/assets/css/**/*.scss', ['css']).on('change', bs.reload);
-  gulp.watch('src/assets/img/*', ['imagemin']).on('change', bs.reload);
+  gulp.watch('src/assets/css/**/*.scss', ['css']);
+  gulp.watch('src/assets/img/*', ['images']);
   gulp.watch('src/assets/js/**/*.js', ['js']).on('change', bs.reload);
   gulp.watch('build/*html').on('change', bs.reload);
 });
